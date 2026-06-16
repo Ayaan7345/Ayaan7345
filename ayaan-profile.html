@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ayaan Ahmad — Cybersecurity</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0f14;
+    --bg-soft:#101620;
+    --panel:#131b27;
+    --line:#1f2a3a;
+    --text:#d7e0ea;
+    --muted:#7d8da0;
+    --red:#ff4d5e;
+    --blue:#3fa9ff;
+    --accent:var(--blue);
+    --accent-dim:rgba(63,169,255,.12);
+    --mono:'JetBrains Mono',monospace;
+    --sans:'Space Grotesk',sans-serif;
+  }
+  body.red-mode{
+    --accent:var(--red);
+    --accent-dim:rgba(255,77,94,.12);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    transition:background .4s;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--accent);color:#0b0f14}
+
+  /* scanline ambience */
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:1;
+    background:repeating-linear-gradient(0deg,transparent 0 2px,rgba(255,255,255,.012) 2px 4px);
+  }
+
+  .wrap{max-width:960px;margin:0 auto;padding:0 24px;position:relative;z-index:2}
+
+  /* ===== nav ===== */
+  nav{
+    position:sticky;top:0;z-index:10;
+    background:rgba(11,15,20,.85);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;max-width:960px;margin:0 auto}
+  .logo{font-family:var(--mono);font-size:.9rem;color:var(--accent);transition:color .3s}
+  .logo::before{content:"~/";color:var(--muted)}
+  .nav-links{display:flex;gap:20px;align-items:center}
+  .nav-links a{color:var(--muted);text-decoration:none;font-size:.85rem;font-family:var(--mono);transition:color .2s}
+  .nav-links a:hover,.nav-links a:focus-visible{color:var(--accent)}
+  .nav-links a:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+
+  /* team toggle — the signature */
+  .team-toggle{
+    display:flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;
+    font-family:var(--mono);font-size:.72rem;cursor:pointer;
+  }
+  .team-toggle button{
+    background:transparent;border:0;color:var(--muted);padding:6px 12px;
+    font-family:inherit;font-size:inherit;cursor:pointer;transition:all .25s;
+  }
+  .team-toggle button.active-blue{background:rgba(63,169,255,.18);color:var(--blue)}
+  .team-toggle button.active-red{background:rgba(255,77,94,.18);color:var(--red)}
+  .team-toggle button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+
+  /* ===== hero / terminal ===== */
+  header{padding:72px 0 56px}
+  .eyebrow{font-family:var(--mono);font-size:.78rem;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;transition:color .3s}
+  h1{font-size:clamp(2.2rem,6vw,3.6rem);font-weight:700;letter-spacing:-.02em;margin:8px 0 4px}
+  .tagline{color:var(--muted);font-size:1.05rem;max-width:560px}
+  .tagline b{color:var(--text);font-weight:500}
+
+  .terminal{
+    margin-top:40px;background:var(--panel);border:1px solid var(--line);
+    border-radius:10px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.45);
+  }
+  .term-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--bg-soft);border-bottom:1px solid var(--line)}
+  .dot{width:11px;height:11px;border-radius:50%}
+  .dot:nth-child(1){background:#ff5f57}.dot:nth-child(2){background:#febc2e}.dot:nth-child(3){background:#28c840}
+  .term-title{font-family:var(--mono);font-size:.72rem;color:var(--muted);margin-left:8px}
+  .term-body{padding:18px;font-family:var(--mono);font-size:.85rem;min-height:240px;max-height:340px;overflow-y:auto}
+  .term-body .line{white-space:pre-wrap;word-break:break-word;margin-bottom:2px}
+  .prompt-sym{color:var(--accent);transition:color .3s}
+  .term-out{color:var(--muted)}
+  .term-out a{color:var(--accent)}
+  .term-input-row{display:flex;gap:8px;align-items:center}
+  .term-input{
+    flex:1;background:transparent;border:0;color:var(--text);
+    font-family:var(--mono);font-size:.85rem;outline:none;caret-color:var(--accent);
+  }
+  .hint{font-family:var(--mono);font-size:.72rem;color:var(--muted);margin-top:10px}
+  .hint code{color:var(--accent);transition:color .3s}
+
+  /* ===== sections ===== */
+  section{padding:56px 0;border-top:1px solid var(--line)}
+  h2{font-size:1.5rem;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+  h2 .sym{font-family:var(--mono);color:var(--accent);font-size:1rem;transition:color .3s}
+  .sec-sub{color:var(--muted);font-size:.92rem;margin-bottom:28px;max-width:620px}
+
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+  .about-text p{margin-bottom:14px;color:var(--text)}
+  .stat-stack{display:flex;flex-direction:column;gap:12px}
+  .stat{
+    background:var(--panel);border:1px solid var(--line);border-radius:8px;
+    padding:14px 16px;display:flex;justify-content:space-between;align-items:baseline;
+    transition:border-color .25s,transform .25s;
+  }
+  .stat:hover{border-color:var(--accent);transform:translateX(4px)}
+  .stat .k{font-family:var(--mono);font-size:.75rem;color:var(--muted)}
+  .stat .v{font-weight:700;color:var(--accent);transition:color .3s}
+
+  /* CTF cards */
+  .ctf-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .card{
+    background:var(--panel);border:1px solid var(--line);border-radius:10px;
+    padding:24px;position:relative;overflow:hidden;
+    transition:transform .25s,border-color .25s;
+    display:block;text-decoration:none;color:inherit;
+  }
+  .card:hover,.card:focus-visible{transform:translateY(-4px)}
+  .card:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .card.red:hover{border-color:var(--red)}
+  .card.blue:hover{border-color:var(--blue)}
+  .card::after{
+    content:"";position:absolute;top:0;left:0;right:0;height:3px;opacity:.85;
+  }
+  .card.red::after{background:var(--red)}
+  .card.blue::after{background:var(--blue)}
+  .card .role{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase}
+  .card.red .role{color:var(--red)}
+  .card.blue .role{color:var(--blue)}
+  .card h3{margin:8px 0 10px;font-size:1.2rem}
+  .card p{color:var(--muted);font-size:.9rem}
+  .card .go{font-family:var(--mono);font-size:.78rem;margin-top:16px;display:inline-block}
+  .card.red .go{color:var(--red)}
+  .card.blue .go{color:var(--blue)}
+
+  /* project */
+  .project{
+    background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:28px;
+    display:grid;grid-template-columns:1fr auto;gap:24px;align-items:start;
+    transition:border-color .25s;
+  }
+  .project:hover{border-color:var(--accent)}
+  .project h3{font-size:1.25rem;margin-bottom:10px}
+  .project p{color:var(--muted);font-size:.92rem;margin-bottom:10px}
+  .tf-cmd{
+    font-family:var(--mono);font-size:.82rem;background:var(--bg);
+    border:1px solid var(--line);border-radius:6px;padding:10px 14px;
+    color:var(--accent);display:inline-block;transition:color .3s;
+  }
+  .tags{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+  .tag{font-family:var(--mono);font-size:.7rem;border:1px solid var(--line);border-radius:99px;padding:4px 10px;color:var(--muted)}
+  .btn{
+    display:inline-block;font-family:var(--mono);font-size:.82rem;
+    background:var(--accent);color:#0b0f14;text-decoration:none;
+    padding:10px 18px;border-radius:6px;font-weight:700;transition:opacity .2s,background .3s;
+    white-space:nowrap;
+  }
+  .btn:hover{opacity:.85}
+  .btn:focus-visible{outline:2px solid var(--text);outline-offset:2px}
+
+  /* certs */
+  .cert-row{display:flex;flex-direction:column;gap:12px}
+  .cert{
+    display:flex;align-items:center;gap:14px;background:var(--panel);
+    border:1px solid var(--line);border-radius:8px;padding:16px 18px;
+    transition:border-color .25s;
+  }
+  .cert:hover{border-color:var(--accent)}
+  .cert .check{font-family:var(--mono);color:var(--accent);transition:color .3s}
+  .cert .name{font-weight:500}
+  .cert .status{margin-left:auto;font-family:var(--mono);font-size:.7rem;border-radius:99px;padding:4px 10px}
+  .status.done{background:rgba(40,200,64,.12);color:#4ade80}
+  .status.wip{background:rgba(254,188,46,.12);color:#fbbf24}
+
+  footer{padding:48px 0;border-top:1px solid var(--line);text-align:center;color:var(--muted);font-family:var(--mono);font-size:.78rem}
+  footer .blink{color:var(--accent);animation:blink 1.1s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s,transform .6s}
+  .reveal.in{opacity:1;transform:none}
+
+  @media(max-width:720px){
+    .about-grid,.ctf-grid{grid-template-columns:1fr}
+    .project{grid-template-columns:1fr}
+    .nav-links a{display:none}
+    .nav-links .team-toggle{display:flex}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    .reveal{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="logo">ayaan_ahmad</div>
+    <div class="nav-links">
+      <a href="#about">about</a>
+      <a href="#ctf">ctf</a>
+      <a href="#projects">projects</a>
+      <a href="#certs">certs</a>
+      <div class="team-toggle" title="Switch team theme">
+        <button id="btnBlue" class="active-blue" aria-pressed="true">BLUE TEAM</button>
+        <button id="btnRed" aria-pressed="false">RED TEAM</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<header class="wrap">
+  <div class="eyebrow" id="modeLabel">// defending digital environments</div>
+  <h1>Ayaan Ahmad</h1>
+  <p class="tagline">Cybersecurity practitioner since age <b>six</b>. I solve complex problems and safeguard digital environments — comfortable on <b>both sides</b> of the engagement.</p>
+
+  <div class="terminal" id="terminal">
+    <div class="term-bar">
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      <span class="term-title">ayaan@profile: ~</span>
+    </div>
+    <div class="term-body" id="termBody">
+      <div class="term-input-row">
+        <span class="prompt-sym">ayaan@profile:~$</span>
+        <input class="term-input" id="termInput" aria-label="Terminal input" autocomplete="off" spellcheck="false">
+      </div>
+    </div>
+  </div>
+  <div class="hint">Try typing <code>help</code>, <code>whoami</code>, <code>projects</code>, <code>certs</code>, or <code>redteam</code> / <code>blueteam</code></div>
+</header>
+
+<section id="about" class="wrap reveal">
+  <h2><span class="sym">01</span> About Me</h2>
+  <p class="sec-sub">Mission: solve complex problems and safeguard digital environments.</p>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>I've been passionate about cybersecurity since the age of six. Over the years, I've worked with several Managed Service Providers (MSPs) and Managed Security Service Providers (MSSPs), where I gained invaluable experience and insights.</p>
+      <p>I'm deeply grateful to have chosen a field that allows me to make a meaningful impact — and I document everything I learn along the way so others can learn from it too.</p>
+    </div>
+    <div class="stat-stack">
+      <div class="stat"><span class="k">PASSION_SINCE</span><span class="v">age 6</span></div>
+      <div class="stat"><span class="k">EXPERIENCE</span><span class="v">MSP / MSSP</span></div>
+      <div class="stat"><span class="k">FOCUS</span><span class="v">Red + Blue Team</span></div>
+      <div class="stat"><span class="k">CURRENT_BUILD</span><span class="v">Azure SIEM Lab</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="ctf" class="wrap reveal">
+  <h2><span class="sym">02</span> CTF Writeups &amp; Practice</h2>
+  <p class="sec-sub">I meticulously document and share insights from CTF challenges. Dissecting these challenges sharpens my own skills and serves as a resource for the cybersecurity community.</p>
+  <div class="ctf-grid">
+    <a class="card red" href="https://app.hackthebox.com/users/766624" target="_blank" rel="noopener">
+      <div class="role">⚔ Offense / Red Team</div>
+      <h3>Hack The Box</h3>
+      <p>Where I practice Red Team CTFs — most boxes are black-box engagements. A realistic environment for penetration testing and learning how to exploit vulnerabilities.</p>
+      <span class="go">→ View HTB profile</span>
+    </a>
+    <a class="card blue" href="https://app.letsdefend.io/user/ayaan7345" target="_blank" rel="noopener">
+      <div class="role">🛡 Defense / Blue Team</div>
+      <h3>LetsDefend</h3>
+      <p>Where I practice Blue Team CTFs — a simulated SOC environment for incident response and learning how to triage security alerts.</p>
+      <span class="go">→ View LetsDefend profile</span>
+    </a>
+  </div>
+</section>
+
+<section id="projects" class="wrap reveal">
+  <h2><span class="sym">03</span> Current Project</h2>
+  <p class="sec-sub">Infrastructure as code meets digital forensics.</p>
+  <div class="project">
+    <div>
+      <h3>Azure SIEM Honeypot Lab</h3>
+      <p>I've always wanted to learn Terraform and automate my infrastructure. This project deploys a complete honeypot environment in Azure — the entire environment is built with Terraform. Users can practice DFIR and writing detection queries.</p>
+      <div class="tf-cmd">$ terraform apply <span style="color:var(--muted)"># that's all it takes</span></div>
+      <div class="tags">
+        <span class="tag">Terraform</span><span class="tag">Azure</span><span class="tag">Sentinel</span><span class="tag">Honeypot</span><span class="tag">DFIR</span><span class="tag">KQL</span>
+      </div>
+    </div>
+    <a class="btn" href="https://github.com/Ayaan7345/Azure_SEIM_Lab" target="_blank" rel="noopener">View on GitHub →</a>
+  </div>
+</section>
+
+<section id="certs" class="wrap reveal">
+  <h2><span class="sym">04</span> Certifications</h2>
+  <p class="sec-sub">Always leveling up.</p>
+  <div class="cert-row">
+    <div class="cert">
+      <span class="check">[✓]</span>
+      <span class="name">AZ-700 — Azure Network Engineer Associate</span>
+      <span class="status done">EARNED</span>
+    </div>
+    <div class="cert">
+      <span class="check">[~]</span>
+      <span class="name">CompTIA Security+</span>
+      <span class="status wip">IN PROGRESS</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">ayaan@profile:~$ keep_learning --forever <span class="blink">█</span></div>
+</footer>
+
+<script>
+(function(){
+  // ---- team toggle ----
+  const body=document.body, btnRed=document.getElementById('btnRed'), btnBlue=document.getElementById('btnBlue');
+  const modeLabel=document.getElementById('modeLabel');
+  function setMode(red){
+    body.classList.toggle('red-mode',red);
+    btnRed.classList.toggle('active-red',red);
+    btnBlue.classList.toggle('active-blue',!red);
+    btnRed.setAttribute('aria-pressed',red);
+    btnBlue.setAttribute('aria-pressed',!red);
+    modeLabel.textContent=red?'// exploiting to understand':'// defending digital environments';
+  }
+  btnRed.onclick=()=>setMode(true);
+  btnBlue.onclick=()=>setMode(false);
+
+  // ---- terminal ----
+  const termBody=document.getElementById('termBody');
+  const input=document.getElementById('termInput');
+  const inputRow=termBody.querySelector('.term-input-row');
+
+  const cmds={
+    help:()=>`Available commands:
+  whoami      — about me
+  ctf         — my CTF profiles
+  projects    — current project
+  certs       — certifications
+  redteam     — switch to red team theme
+  blueteam    — switch to blue team theme
+  clear       — clear terminal`,
+    whoami:()=>`Ayaan Ahmad — cybersecurity practitioner since age 6.
+Experience with MSPs & MSSPs. Mission: solve complex
+problems and safeguard digital environments.`,
+    ctf:()=>`[RED]  Hack The Box  → https://app.hackthebox.com/users/766624
+[BLUE] LetsDefend    → https://app.letsdefend.io/user/ayaan7345`,
+    projects:()=>`Azure SIEM Honeypot Lab — full environment built with
+Terraform. Just run: terraform apply
+→ https://github.com/Ayaan7345/Azure_SEIM_Lab`,
+    certs:()=>`[✓] AZ-700 — Azure Network Engineer Associate
+[~] Security+ — in progress`,
+    redteam:()=>{setMode(true);return 'Theme switched: RED TEAM ⚔';},
+    blueteam:()=>{setMode(false);return 'Theme switched: BLUE TEAM 🛡';},
+    sudo:()=>`ayaan is not in the sudoers file. This incident will be reported. 😉`,
+    clear:()=>{termBody.querySelectorAll('.line').forEach(l=>l.remove());return null;}
+  };
+
+  function print(text,isCmd){
+    if(text===null)return;
+    const div=document.createElement('div');
+    div.className='line'+(isCmd?'':' term-out');
+    if(isCmd){
+      div.innerHTML='<span class="prompt-sym">ayaan@profile:~$</span> '+escapeHtml(text);
+    } else {
+      div.innerHTML=linkify(escapeHtml(text));
+    }
+    termBody.insertBefore(div,inputRow);
+    termBody.scrollTop=termBody.scrollHeight;
+  }
+  function escapeHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  function linkify(s){return s.replace(/(https?:\/\/[^\s]+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>');}
+
+  input.addEventListener('keydown',e=>{
+    if(e.key!=='Enter')return;
+    const raw=input.value.trim();input.value='';
+    if(!raw)return;
+    print(raw,true);
+    const cmd=raw.toLowerCase().split(' ')[0];
+    if(cmds[cmd]){print(cmds[cmd]());}
+    else{print(`command not found: ${cmd} — try 'help'`);}
+  });
+  document.getElementById('terminal').addEventListener('click',()=>input.focus());
+
+  // boot sequence
+  const boot=['Initializing profile...','Loading red team modules... OK','Loading blue team modules... OK','','Welcome. Type \'help\' to get started.'];
+  let i=0;
+  (function bootStep(){
+    if(i<boot.length){print(boot[i++]);setTimeout(bootStep,260);}
+  })();
+
+  // ---- scroll reveals ----
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+})();
+</script>
+</body>
+</html>
