@@ -209,6 +209,7 @@
     <div class="logo">ayaan_ahmad</div>
     <div class="nav-links">
       <a href="#about">about</a>
+      <a href="#experience">experience</a>
       <a href="#ctf">ctf</a>
       <a href="#projects">projects</a>
       <a href="#certs">certs</a>
@@ -249,16 +250,44 @@
       <p>I'm deeply grateful to have chosen a field that allows me to make a meaningful impact — and I document everything I learn along the way so others can learn from it too.</p>
     </div>
     <div class="stat-stack">
-      <div class="stat"><span class="k">PASSION_SINCE</span><span class="v">age 6</span></div>
-      <div class="stat"><span class="k">EXPERIENCE</span><span class="v">MSP / MSSP</span></div>
+      <div class="stat"><span class="k">ROLE</span><span class="v">Cybersecurity Specialist</span></div>
+      <div class="stat"><span class="k">EDUCATION</span><span class="v">B.S. IT / Cybersecurity, NEIU '26</span></div>
       <div class="stat"><span class="k">FOCUS</span><span class="v">Red + Blue Team</span></div>
       <div class="stat"><span class="k">CURRENT_BUILD</span><span class="v">Azure SIEM Lab</span></div>
     </div>
   </div>
 </section>
 
+<section id="experience" class="wrap reveal">
+  <h2><span class="sym">02</span> Experience</h2>
+  <p class="sec-sub">Hands-on across security operations, cloud, and network engineering.</p>
+  <div class="cert-row">
+    <div class="cert" style="align-items:flex-start;flex-direction:column;gap:6px">
+      <div style="display:flex;width:100%;align-items:baseline;gap:10px">
+        <span class="name">Cybersecurity Specialist — Physicians Revenue Group, Lisle, IL</span>
+        <span class="status done" style="margin-left:auto">MAY 2023 – PRESENT</span>
+      </div>
+      <p style="color:var(--muted);font-size:.85rem;margin:0">Cut org risk score 35% YoY via monthly red team engagements (20+ critical findings); deployed a custom Wazuh SIEM cutting MTTD 40% across 90+ endpoints; standardized IR with 15+ runbooks (50% fewer help desk tickets); raised patch rollout success from 77% to 99%+, saving $18K/yr.</p>
+    </div>
+    <div class="cert" style="align-items:flex-start;flex-direction:column;gap:6px">
+      <div style="display:flex;width:100%;align-items:baseline;gap:10px">
+        <span class="name">Cloud &amp; Network Engineer — Villa-Tech, Naperville, IL</span>
+        <span class="status done" style="margin-left:auto">MAR 2022 – NOV 2022</span>
+      </div>
+      <p style="color:var(--muted);font-size:.85rem;margin:0">Architected SDN-based hybrid cloud hitting 99.9% uptime across 3 sites (50+ nodes); cut WAN costs 30% across 5 branches with Silver Peak SD-WAN + Azure Virtual Hubs (P2S/S2S VPN); migrated to Azure with zero downtime across 200+ firewall policies.</p>
+    </div>
+    <div class="cert" style="align-items:flex-start;flex-direction:column;gap:6px">
+      <div style="display:flex;width:100%;align-items:baseline;gap:10px">
+        <span class="name">Cybersecurity Intern — Villa-Tech, Glenview, IL</span>
+        <span class="status done" style="margin-left:auto">JUN 2020 – SEP 2020</span>
+      </div>
+      <p style="color:var(--muted);font-size:.85rem;margin:0">Hardened Checkpoint R80.10 across 30+ enterprise nodes, cutting firewall misconfigs 25%; built 8 Grafana dashboards across AWS and on-prem, eliminating 3+ hrs/week of manual compliance reporting.</p>
+    </div>
+  </div>
+</section>
+
 <section id="ctf" class="wrap reveal">
-  <h2><span class="sym">02</span> CTF Writeups &amp; Practice</h2>
+  <h2><span class="sym">03</span> CTF Writeups &amp; Practice</h2>
   <p class="sec-sub">I meticulously document and share insights from CTF challenges. Dissecting these challenges sharpens my own skills and serves as a resource for the cybersecurity community.</p>
   <div class="ctf-grid">
     <a class="card red" href="https://app.hackthebox.com/users/766624" target="_blank" rel="noopener">
@@ -277,7 +306,7 @@
 </section>
 
 <section id="projects" class="wrap reveal">
-  <h2><span class="sym">03</span> Current Project</h2>
+  <h2><span class="sym">04</span> Current Project</h2>
   <p class="sec-sub">Infrastructure as code meets digital forensics.</p>
   <div class="project">
     <div>
@@ -293,7 +322,7 @@
 </section>
 
 <section id="certs" class="wrap reveal">
-  <h2><span class="sym">04</span> Certifications</h2>
+  <h2><span class="sym">05</span> Certifications</h2>
   <p class="sec-sub">Always leveling up.</p>
   <div class="cert-row">
     <div class="cert">
@@ -302,9 +331,19 @@
       <span class="status done">EARNED</span>
     </div>
     <div class="cert">
-      <span class="check">[~]</span>
-      <span class="name">CompTIA Security+</span>
-      <span class="status wip">IN PROGRESS</span>
+      <span class="check">[✓]</span>
+      <span class="name">EdgeConnect Sales Expert (ECSXA)</span>
+      <span class="status done">EARNED</span>
+    </div>
+    <div class="cert">
+      <span class="check">[✓]</span>
+      <span class="name">Silver Peak SD-WAN Professional</span>
+      <span class="status done">EARNED</span>
+    </div>
+    <div class="cert">
+      <span class="check">[✓]</span>
+      <span class="name">Checkpoint CCSA</span>
+      <span class="status done">EARNED</span>
     </div>
   </div>
 </section>
@@ -337,22 +376,33 @@
   const cmds={
     help:()=>`Available commands:
   whoami      — about me
+  education   — school
+  experience  — work history
   ctf         — my CTF profiles
   projects    — current project
   certs       — certifications
   redteam     — switch to red team theme
   blueteam    — switch to blue team theme
   clear       — clear terminal`,
-    whoami:()=>`Ayaan Ahmad — cybersecurity practitioner since age 6.
-Experience with MSPs & MSSPs. Mission: solve complex
-problems and safeguard digital environments.`,
+    whoami:()=>`Ayaan Ahmad — Cybersecurity Specialist.
+Cybersecurity practitioner since age 6, with experience
+across MSPs, MSSPs, cloud, and network engineering.
+Mission: solve complex problems and safeguard digital
+environments.`,
+    education:()=>`Northeastern Illinois University — Chicago, IL
+B.S. Information Technology / Cybersecurity (2026)`,
+    experience:()=>`Cybersecurity Specialist — Physicians Revenue Group (2023–Present)
+Cloud & Network Engineer — Villa-Tech (Mar 2022–Nov 2022)
+Cybersecurity Intern — Villa-Tech (Jun 2020–Sep 2020)`,
     ctf:()=>`[RED]  Hack The Box  → https://app.hackthebox.com/users/766624
 [BLUE] LetsDefend    → https://app.letsdefend.io/user/ayaan7345`,
     projects:()=>`Azure SIEM Honeypot Lab — full environment built with
 Terraform. Just run: terraform apply
 → https://github.com/Ayaan7345/Azure_SEIM_Lab`,
     certs:()=>`[✓] AZ-700 — Azure Network Engineer Associate
-[~] Security+ — in progress`,
+[✓] EdgeConnect Sales Expert (ECSXA)
+[✓] Silver Peak SD-WAN Professional
+[✓] Checkpoint CCSA`,
     redteam:()=>{setMode(true);return 'Theme switched: RED TEAM ⚔';},
     blueteam:()=>{setMode(false);return 'Theme switched: BLUE TEAM 🛡';},
     sudo:()=>`ayaan is not in the sudoers file. This incident will be reported. 😉`,
